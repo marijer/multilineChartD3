@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+   <title>Booked Bookings</title>
+   <meta charset="utf-8">
+   <link href="css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+   <div class='body-container'> 
+      <h1>Strategic Partnerships</h1>
+      <div class='main-container'>
+         <div class='search-container'>
+            <select id='search-select'>
+              <option value="name">partner name</option>
+              <option value="id">partner ID</option>
+              <option value="manager">account manager</option>
+            </select>
+
+            <input type='search' id='search' placeholder='Search Partnername'>
+         </div>
+
+         <div class='multiline-container aside'></div> 
+         <div class='detail-container aside'>
+            <div class='title-container'></div>
+            <svg class="chart" height='300'></svg>
+         </div>
+
+       <div id='results-container'></div>
+      </div>
+   
+   </div>
+
+      <script src="js/lib/d3.v3.min.js"></script>
+      <script src="http://documentcloud.github.com/underscore/underscore.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+      <script src="js/test.js"></script> 
+
+
+   <div id="tooltip" class="hidden">
+      <div class="title"></div>
+      <div class="pid"></div>
+   </div>
+
+
+</body>
+</html>
