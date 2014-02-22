@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+   <title>Booked Bookings</title>
+   <meta charset="utf-8">
+   <link href="css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+   <div class='body-container'> 
+      <h1>Strategic Partnerships + Shop PPC</h1>
+      <div class='remark'>A test, longtail accounts are combined(this regards 'LT Team BCN Green ', 'LT Team APAC Red', 'LT Team AMS Blue '). All Accounts less than 10 bookings are discarded</div>
+
+      <div id='proccessed'></div>
+      <div class='main-container' >
+
+      <div class='search-container'>
+            <select id='search-select'>
+              <option value="name">partner name</option>
+              <option value="id">partner ID</option>
+              <option value="manager">account manager</option>
+            </select>
+
+            <input type='search' id='search' placeholder='Search Partnername'>
+      </div>
+
+
+      <div id='main-linechart' class='multiline-container aside' style="height: 425px"></div> 
+         <div class='detail-container aside'>
+            <div class='title-container'></div>
+            <div class="chart"></div>
+         </div>
+      </div>
+
+
+
+       <div id='results-container'></div>
+   </div>
+
+      <script src="js/lib/d3.v3.min.js"></script>
+      <script src="js/lib/underscore.js"></script>
+      <script src="js/lib/jquery-1.11.0.min.js"></script>
+
+      <script src="js/dataParser.js"></script> 
+      <script src="js/LineChart.js"></script>       
+      <script src="js/BarChart.js"></script> 
+      <script src="js/main.js"></script> 
+
+
+   <div id="tooltip" class="hidden">
+      <div class="title"></div>
+      <div class="pid"></div>
+   </div>
+
+
+</body>
+</html>
