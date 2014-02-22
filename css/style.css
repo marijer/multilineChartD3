@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body{
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -6,10 +7,14 @@ body{
 h1, h2, h3 {
   margin: 0;
   padding: 0;
+=======
+h1 {
+>>>>>>> a589735c829b34d7a7dfe8b5f1978fe1dee9cf5f
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   font-weight: 400;
 }
 
+<<<<<<< HEAD
 .chart {
   margin-top: 50px;
 }
@@ -34,6 +39,8 @@ h1, h2, h3 {
   display: inline-block;
 }
 
+=======
+>>>>>>> a589735c829b34d7a7dfe8b5f1978fe1dee9cf5f
 body {
   font: 10px Arial, Helvetica, sans-serif;
 }
@@ -47,6 +54,10 @@ body {
   float:left;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a589735c829b34d7a7dfe8b5f1978fe1dee9cf5f
 /* line chart */
 
 .axis path,
@@ -67,7 +78,11 @@ body {
 
 .main {
   fill: none;
+<<<<<<< HEAD
   opacity: 0.6;
+=======
+  opacity: 0.5;
+>>>>>>> a589735c829b34d7a7dfe8b5f1978fe1dee9cf5f
   stroke: #5E5E5E;
   stroke-width: .7px;
   -webkit-transition: opacity 0.4s;
@@ -100,8 +115,19 @@ text.label {
   fill: #000;
 }
 
+<<<<<<< HEAD
 .main-container{
   margin: 20px 0;
+=======
+/* chart */
+
+.chart {
+  margin-top: 50px;
+}
+
+.chart rect {
+  fill: #297EE9;
+>>>>>>> a589735c829b34d7a7dfe8b5f1978fe1dee9cf5f
 }
 
 /* search */
@@ -113,6 +139,7 @@ text.label {
   margin: 20px 0;
 }
 
+<<<<<<< HEAD
 .search-container{
   clear: both;
 }
@@ -126,6 +153,15 @@ text.label {
   display: block;
 }
 
+=======
+/* results-container */
+
+#results-container {
+  clear:both;
+}
+
+
+>>>>>>> a589735c829b34d7a7dfe8b5f1978fe1dee9cf5f
 /* TOOLTIP */
 
 #tooltip {
