@@ -10,8 +10,9 @@
    <div class='body-container'> 
       <header>
         <h1>Strategic Partnerships + Shop PPC</h1>
-        <div class='remark'>A test, longtail accounts are combined(this regards 'LT Team BCN Green ', 'LT Team APAC Red', 'LT Team AMS Blue '). All Accounts less than 10 bookings are discarded</div>
-        <div id='proccessed'></div>
+        <div class='remark'>Test with static data, longtail accounts are combined(this regards 'LT Team BCN Green ', 'LT Team APAC Red', 'LT Team AMS Blue ').</div>
+
+        <div id='data-stats'></div>
       </header>
 
       <div class='main-container'>
@@ -23,15 +24,15 @@
               </select>
 
               <input type='search' id='search' placeholder='Search Partnername'>
+              <div id='search-stats'></div>
         </div>
 
-        <div id='main-linechart' class='multiline-container aside' style="height: 425px"></div> 
+        <div id='main-linechart' class='multiline-container aside' style="min-height: 425px"></div> 
            <div class='detail-container aside'>
               <div class='title-container'></div>
               <div class="chart"></div>
            </div>
         </div>
-
        <div id='results-container'></div>
    </div>
 
@@ -46,7 +47,7 @@
 
       <script src="js/main.js"></script>
 
-   <div id="tooltip" class="hidden">
+   <div id="line-tooltip" class="tooltip hidden">
       <div class="title"></div>
       <div class="pid"></div>
       <div class="info">click on the line for details</div>

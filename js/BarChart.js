@@ -3,11 +3,12 @@ function BarChart( container ){
 		 width = 250 - margin.left - margin.right,
 		 height = 180 - margin.top - margin.bottom,
 		 initBool = false,
+		 numberFormat = d3.format(',.0d'),
 		 headerInfo = '';
 
-	var chart, gy, initBool;
+	var chart, gy, initBool, zoom;
 
-	function getYAxis( y ) {
+	var getYAxis = function ( y ) {
 		var yAxis = d3.svg.axis()
 		    .scale(y)
 			 .tickPadding(10)
@@ -16,44 +17,44 @@ function BarChart( container ){
 		    .orient('left');
 
 		return yAxis;
-	}
+	},
 
-	function customAxis( g ){
+	customAxis = function( g ){
 	  g.selectAll('text')
 	   	.attr('x', -4)
 	      .attr('dy', 2);
-	}
+	},
 
-	function getTotalBookings( arr ){
+	getTotalBookings = function( arr ){
 		var total = 0;
 		for (var i in arr){ 
 			total += Number(arr[i]); 
 		}
 		return total;
-	}
+	},
 
-	this.setMainTitle = function( d, position ){
+	setMainTitle = function( d, position ){
 		var infobox = d3.select('.title-container')
 			.html( function ( ){
 				var str = '<h1>'+ d.name +'</h1>';
 				str += '<h2>' + d.manager + '</h2>';
-				str += '<h2> PID:' + d.id + '</h2>';
+				str += '<h3> PID: ' + d.id + '</h3>';
 
-				str += '<div class="number"> Last month Bookings: <span>' + d.values[d.values.length -1 ] + '</span></div>';
+				str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
 				str += '<div> Partner Position: ' + position + '</div>';
 				return str;
 		});
-	}
+	},
 
-	this.setTitle = function( d ){
+	setTitle = function( d ){
 		headerInfo = '<h2>'+ d.name +'</h2>';
 		headerInfo += '<h3>'+ d.manager +'</h3>';
-		headerInfo += '<h3>PID:'+ d.id +'</h3>'
+		headerInfo += '<h3>PID: '+ d.id +'</h3>'
 		
-		headerInfo += '<h3>Total Bookings: '+ d.totalCount +'</h3>'
-	}
+		headerInfo += '<h3>Total Bookings: '+ numberFormat(Number( d.totalCount )) +'</h3>'
+	},
 
-	this.update = function( d ){
+	update = function( d ){
 		var data = d.values;
 		var barWidth = width / data.length;
 		var elContainer = container || '#results-container';
@@ -122,9 +123,9 @@ function BarChart( container ){
 
 			initBool = true;
 		}
-	}
+	},
 
-	this.updateGraph = function( data ){
+	updateGraph = function( data ){
 		var y = d3.scale.linear()
 			   .range([height, 0])
 			   .domain([0, d3.max(data, function(d) { return d; })]);
@@ -150,5 +151,12 @@ function BarChart( container ){
 		   .tween('attr.dy', null);
 
 		gy.call( customAxis );
+	}
+
+	return {
+		setMainTitle: setMainTitle,
+		setTitle: setTitle,
+		update: update,
+		updateGraph: updateGraph
 	}
 }

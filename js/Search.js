@@ -20,60 +20,63 @@ var search = {
 	update: function( name ) {
 		var dimension = this.selectedDimension || 'name';
 		var arr = [];
-		var lineEventArr = [];
 		var totalResults = 0;
-
+		var lineEventArr = [];
 		var combinedAccounts = new CombinePartners();
 
-      svg.selectAll('.line')
-      	//.style('display', 'none')
-	      .filter(function( d ) { 
-	          var manager = d[dimension].toLowerCase(),
-	              n = name.toLowerCase(); 
-	          return manager.search( n ) > -1 
-	      })
-	      .style('display', 'inline')
-	      .each(function( d, i ) {
+		svg.selectAll('.line')
+		.filter(function( d ) { 
+			var manager = d[dimension].toLowerCase(),
+			n = name.toLowerCase(); 
+			return manager.search( n ) > -1 
+		})
+		.style('display', 'inline')
+		.each(function( d, i ) {
 
 	      	// check if the aid is not already
 	      	if (arr.indexOf(d.id) !== -1) return;
 
 	      	d3.select(this.parentNode)
-	          .classed('active',true);
+	      	.classed('active',true);
 
-	         arr.push(d.id);
+	      	arr.push(d.id);
+	      	totalResults += 1;
 
-	         lineEventArr.push(this.parentNode);
+	      	lineEventArr.push(this.parentNode);
 
-	         var bar1 = new BarChart();
-	         bar1.setTitle(d);
-	         bar1.update(d);
-	         totalResults += 1;
-
-	         combinedAccounts.update(d, d.values);
+	      	var bar1 = new BarChart();
+	      	bar1.setTitle(d);
+	      	bar1.update(d);
+	      	combinedAccounts.update(d, d.values);
 	      })
 
-	   var obj = combinedAccounts.getObject();
-	   	 obj.name = 'Total ' + name;
-	   	 obj.manager =  totalResults + ' PIDs found'
+		if (totalResults > 0){
+			var obj = combinedAccounts.getObject();
+			obj.name = 'Total ' + name;
 
-	   mainBarChart.update( obj );
-	   mainBarChart.setMainTitle( obj );
+			mainBarChart.update( obj );
+			mainBarChart.setMainTitle( obj );
 
-	   lineEvent.restrictSelection( lineEventArr );
-   },
+			lineEvent.restrictSelection( lineEventArr );
+		}
+		search.updateSearchStats(name, totalResults);
+	},
 
-   removeHighlights: function(){
+	updateSearchStats: function(name, totalResults){
+		var el = document.getElementById('search-stats');
+		el.innerHTML = "Searched on <span>" + name + "</span> with <span>" + totalResults + "</span> results";
+	},
+
+	removeHighlights: function(){
 		svg.selectAll('.active')
-			.classed('active', false);
+		.classed('active', false);
 
-		// svg.selectAll('.line')
-  //     	.style('display', 'inline')
-
-      var myNode = document.getElementById('results-container');
-      while (myNode.firstChild) {
-		    myNode.removeChild(myNode.firstChild);
+		var myNode = document.getElementById('results-container');
+		while (myNode.firstChild) {
+			myNode.removeChild(myNode.firstChild);
 		}
 
+		var el = document.getElementById('search-stats');
+		el.innerHTML = '';
 	}
 }

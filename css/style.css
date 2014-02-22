@@ -1,15 +1,35 @@
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font: 11px Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3 {
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica Neue', Helvetica, sans-serif;
   font-weight: 400;
 }
 
+h1 {
+   font-family: 'Helvetica Neue', Helvetica, sans-serif;
+   font-weight: 200;
+   margin-bottom: 5§px;
+}
+
+.body-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.aside {
+  float:left;
+}
+
+.info {
+  margin-top:5px;
+  font-style:italic;
+}
+
 .chart {
+  font-size: 10px;
   margin-top: 50px;
 }
 
@@ -31,19 +51,6 @@ h1, h2, h3 {
 .chart .chart-result, .chart {
   float:none;
   display: inline-block;
-}
-
-body {
-  font: 10px Arial, Helvetica, sans-serif;
-}
-
-.body-container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.aside {
-  float:left;
 }
 
 /* line chart */
@@ -100,7 +107,18 @@ text.label {
 }
 
 .main-container{
-  margin: 20px 0;
+  margin: 10px 0 0;
+  overflow:hidden;
+}
+
+/* data-stats */
+#data-stats {
+  margin: 10px 0;
+}
+
+#data-stats span {
+  font-size: 1.15em;
+  font-weight: bold;
 }
 
 /* search */
@@ -120,14 +138,24 @@ text.label {
   width: 300px;
 }
 
-#results-container {
+#results-container{
   clear: both;
   display: block;
 }
 
+#search-stats{
+  display: inline-block;
+  margin-left: 20px;
+}
+
+#search-stats span{
+  font-weight: bold;
+  font-size: 1.15em;
+}
+
 /* TOOLTIP */
 
-#tooltip {
+.tooltip {
   position: absolute;
   max-width: 200px;
   height: auto;
@@ -141,11 +169,11 @@ text.label {
   font-size: 12px;
 }
 
-#tooltip.hidden {
+.tooltip.hidden {
         display: none;
 }
 
-#tooltip .title {
+.tooltip .title {
   margin: 0;
   font-size: 12px;
   font-weight: bold;

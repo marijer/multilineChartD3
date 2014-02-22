@@ -1,26 +1,28 @@
-// linechart created based on` from http://codepen.io/kiddman/pen/pxjmB
-
-//************************************************************
-// Data notice the structure
-//************************************************************
-
 var mainSettings = {
 	maxValue: 0,
-	start: new Date(2012, 10, 1),
-	file:'summary_months_partnersperchannel_booked_bookings_plain_2.csv'
+	minimumAmountBookings: 10,
+	file:'summary_months_partnersperchannel_booked_bookings_plain_2.csv',
+
+	start: function(){
+		return d3.time.month.floor(new Date(2012, 10, 1));
+	}, 
+
+	end: function(){
+		return new Date(+d3.time.month.ceil(new Date(2013, 12, 1)) + 1);
+	}
 }
 
-var svg,
-	zoom;
-
-var mainBarChart = new BarChart('.chart');
+var svg;
 
 parseData( mainSettings.file , function( data, range ){
 	LineChart(data, range);
 });
 
+var mainBarChart = new BarChart('.chart');
+
 document.addEventListener('keydown', lineEvent.onKeyDown, false);
 
+// search events
 $( 'select#search-select' ).change(function() {
 	search.setDimension( this ) ;
 });

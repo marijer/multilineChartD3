@@ -1,3 +1,6 @@
+// linechart created based on` from http://codepen.io/kiddman/pen/pxjmB
+
+
 function LineChart(data, range) {
 //************************************************************
 // Create Margins and Axis and hook our zoom function
@@ -8,7 +11,7 @@ function LineChart(data, range) {
   	
   var x = d3.time.scale()
       .range([0,width])
-      .domain([start,end]);
+      .domain([mainSettings.start(), mainSettings.end()]);
 
   var y = d3.scale.linear()
       .range([height, 0])
@@ -200,7 +203,7 @@ var lineEvent = {
 
   onMouseOver: function( d ){
     var el = d3.select(this);
-    var selectTooltip = d3.select('#tooltip');
+    var selectTooltip = d3.select('#line-tooltip');
 
 
     selectTooltip
@@ -212,11 +215,11 @@ var lineEvent = {
     .select('.title').text(d.name);
 
     selectTooltip
-    .select('.pid').text(d.id);
+    .select('.pid').text(d.manager);
   },
 
   onMouseOut: function( d ){
-    d3.select('#tooltip')
+    d3.select('#line-tooltip')
     .classed('hidden', true);
   },
 
