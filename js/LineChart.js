@@ -178,5 +178,72 @@ function zoomed() {
 	// 	return 'translate(' + x(d.point.x) + ',' + y(d.point.y) + ')'; }
 	// );  
 	}
+}
 
+var lineEvent = {
+  currentElement: undefined,
+
+  selectLine: function( el, d ){
+    lineEvent.currentElement = el;
+
+      svg.selectAll('.active')
+        .classed('active',false);
+
+      d3.select(el)
+          .classed('active', true);
+
+      var position = Number(el.getAttribute('data-position')) + 1;
+
+    mainBarChart.update( d );
+    mainBarChart.setMainTitle( d, position )
+  },
+
+  onMouseOver: function( d ){
+    var el = d3.select(this);
+    var selectTooltip = d3.select('#tooltip');
+
+
+    selectTooltip
+      .style('left', (d3.event.pageX + 10) + 'px')
+       .style('top', (d3.event.pageY - 40) + 'px')
+       .classed('hidden', false);
+
+    selectTooltip
+    .select('.title').text(d.name);
+
+    selectTooltip
+    .select('.pid').text(d.id);
+  },
+
+  onMouseOut: function( d ){
+    d3.select('#tooltip')
+    .classed('hidden', true);
+  },
+
+  restrictSelection: function( arr ) {
+
+  },
+
+  onKeyDown: function( e ){
+    var keyCode = e.keyCode,
+      el;
+
+    if (!lineEvent.currentElement) return;
+
+    switch (keyCode){
+      case 38: // down
+        el = lineEvent.currentElement.previousSibling || false; 
+        break;
+      case 40: // up
+        el = lineEvent.currentElement.nextSibling || false;
+        break;
+    }
+
+    if( el ) lineEvent.traverse( el );
+  },
+
+  traverse: function( el ){
+    var data = el.__data__;
+        lineEvent.selectLine(el, data); 
+  }
 }
