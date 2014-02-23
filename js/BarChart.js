@@ -67,6 +67,7 @@ function BarChart( container ){
 			    .domain([new Date(2012, 10, 1), new Date(2013, 12, 1)])
 			    .range([0, width]);
 
+
 			var y = d3.scale.linear()
 			      .range([height, 0])
 			      .domain([0, d3.max(data, function(d) { return d; })]);
@@ -75,7 +76,7 @@ function BarChart( container ){
 
 			var xAxis = d3.svg.axis()
 			    .scale( x )
-				.tickFormat(d3.time.format('%b'))
+				 .tickFormat(d3.time.format('%b'))
 			    .orient( 'bottom' );	
 
 			var header = d3.select( elContainer )
@@ -112,7 +113,7 @@ function BarChart( container ){
 			      .data(data)
 			    	.enter()
 			    	.append('rect')
-			      .attr('class', 'bar')
+			      .attr('class', 'bar chart')
 			      .attr('opacity', function() {
 			      	return Math.random() *.2 + .7;
 			      })
@@ -120,6 +121,24 @@ function BarChart( container ){
 			      .attr('height', function(d) { return height - y(d); })
 			      .attr('width', barWidth - 1)
 			      .attr('transform', function(d, i) { return 'translate(' + i * barWidth + ',0)'; });
+
+			chart.selectAll('.bar')
+				.on('mouseover', function( d, i ) {
+				 	var selectTooltip = d3.select('#chart-tooltip');
+
+				    selectTooltip
+				      .style('left', (d3.event.pageX + 10) + 'px')
+				      .style('top', (d3.event.pageY - 40) + 'px')
+				      .classed('hidden', false);
+
+				    selectTooltip
+				    .select('.title').text(numberFormat(Number(d)) + ' bookings');
+
+			   })
+			   .on('mouseout', function( d, i ) {
+					d3.select('#chart-tooltip')
+    				  .classed('hidden', true);
+			   });
 
 			initBool = true;
 		}

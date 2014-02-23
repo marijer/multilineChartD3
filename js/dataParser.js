@@ -138,7 +138,8 @@ function CombinePartners( team ){
 
 function processed( total, minimum ){
    var el = document.getElementById('data-stats');
-
+   var numberFormat = d3.format(',.0d');
    var showingNumber = total - minimum;
-   el.innerHTML = "Showing <span>" + showingNumber + "</span> of in total <span>" + total +"</span> PIDs, <span>" + minimum + "</span> were below " + mainSettings.minimumAmountBookings  + " bookings and excluded from the graphs." ;
+
+   el.innerHTML = "Showing <span>" + numberFormat(Number(showingNumber)) + "</span> of in total <span>" + numberFormat(Number(total)) +"</span> PIDs, <span>" + numberFormat(Number(minimum)) + "</span> were below " + mainSettings.minimumAmountBookings  + " bookings and are excluded from the graphs." ;
 }

@@ -12,23 +12,28 @@ var mainSettings = {
 	}
 }
 
-var svg;
+var svg,
+	mainBarChart;
 
-parseData( mainSettings.file , function( data, range ){
-	LineChart(data, range);
+$(function(){ 
+
+	parseData( mainSettings.file , function( data, range ){
+		LineChart(data, range);
+	});
+
+	mainBarChart = new BarChart('.chart');
+
+	document.addEventListener('keydown', lineEvent.onKeyDown, false);
+
+	// search events
+	$( 'select#search-select' ).change(function() {
+		search.setDimension( this ) ;
+	});
+
+	document.getElementById('search').onkeypress = function( e ) {
+	  if ( e.keyCode == '13' ) {
+	    search.onSearch(e.target.value);
+	  }
+	}
+
 });
-
-var mainBarChart = new BarChart('.chart');
-
-document.addEventListener('keydown', lineEvent.onKeyDown, false);
-
-// search events
-$( 'select#search-select' ).change(function() {
-	search.setDimension( this ) ;
-});
-
-document.getElementById('search').onkeypress = function( e ) {
-  if ( e.keyCode == '13' ) {
-    search.onSearch(e.target.value);
-  }
-}

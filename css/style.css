@@ -28,6 +28,12 @@ h1 {
   font-style:italic;
 }
 
+/* CHART */
+
+.loading {
+  background: url(../img/load_icon.gif) no-repeat;
+}
+
 .chart {
   font-size: 10px;
   margin-top: 50px;
@@ -35,10 +41,14 @@ h1 {
 
 .chart rect {
   fill: #297EE9;
+  -webkit-transition: fill 0.2s;
+  -moz-transition: fill 0.2s;
+  -o-transition: fill 0.2s;
+  transition: fill 0.2s;
 }
 
 .chart rect:hover {
-  fill: red;
+  fill: #feba02;
 }
 
 .chart-result {

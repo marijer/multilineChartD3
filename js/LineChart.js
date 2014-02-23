@@ -108,7 +108,7 @@ var series = svg.selectAll('.series')
 
 
 svg.selectAll('.hover')
-	 .on('mouseover', function( d, i ) {
+	.on('mouseover', function( d, i ) {
         var el = this.parentNode;
 
         d3.select(el)
@@ -116,7 +116,7 @@ svg.selectAll('.hover')
 
         lineEvent.onMouseOver( d );
       })
-      .on('mouseout', function( d, i ) {
+  .on('mouseout', function( d, i ) {
 		var el = this.parentNode;
 
         d3.select(el)
@@ -126,7 +126,7 @@ svg.selectAll('.hover')
       })
       .on('click', function( d, i ) {
         lineEvent.selectLine( this.parentNode , d );
-     })
+  })
 	
 	
 // ************************************************************
@@ -236,11 +236,14 @@ var lineEvent = {
     switch (keyCode){
       case 38: // down
         el = lineEvent.currentElement.previousSibling || false; 
+        el = d3.select(el).classed('series') ? lineEvent.currentElement.previousSibling : false;
         break;
       case 40: // up
         el = lineEvent.currentElement.nextSibling || false;
         break;
     }
+
+    el = d3.select(el).classed('series') ? el : fla
 
     if( el ) lineEvent.traverse( el );
   },
