@@ -9,6 +9,7 @@ Multiline barchart
 - interface update
 - styling
 - load icon
+|| remove onhover when doing keydown event
 || fix move up & down > constraints
 - fix up and down, scrollbar with arrows
 

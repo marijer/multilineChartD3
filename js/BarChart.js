@@ -47,11 +47,11 @@ function BarChart( container ){
 	},
 
 	setTitle = function( d ){
-		headerInfo = '<h2>'+ d.name +'</h2>';
-		headerInfo += '<h3>'+ d.manager +'</h3>';
-		headerInfo += '<h3>PID: '+ d.id +'</h3>'
+		headerInfo = '<h3>'+ d.name +'</h3>';
+		headerInfo += '<div class="manager">'+ d.manager +'</div>';
+		headerInfo += '<div class="pid">PID: '+ d.id +'</div>'
 		
-		headerInfo += '<h3>Total Bookings: '+ numberFormat(Number( d.totalCount )) +'</h3>'
+		headerInfo += '<div class="total">Total Bookings: '+ numberFormat(Number( d.totalCount )) +'</div>'
 	},
 
 	update = function( d ){

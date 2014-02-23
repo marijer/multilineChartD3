@@ -7,7 +7,7 @@ function LineChart(data, range) {
 //************************************************************
   var margin = {top: 10, right: 30, bottom: 30, left: 70},
       width = 760 - margin.left - margin.right,
-      height = 420 - margin.top - margin.bottom;
+      height = 400 - margin.top - margin.bottom;
   	
   var x = d3.time.scale()
       .range([0,width])
@@ -41,7 +41,7 @@ function LineChart(data, range) {
 // Generate our SVG object
 //************************************************************	
   svg = d3.select('.multiline-container').append('svg')
-  	.call(zoom)
+  	//.call(zoom)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
   	 .append('g')
@@ -243,7 +243,14 @@ var lineEvent = {
         break;
     }
 
-    el = d3.select(el).classed('series') ? el : fla
+    // check if element is part of the series
+    el = d3.select(el).classed('series') ? el : false;
+
+  d3.select('#line-tooltip')
+    .classed('hidden', true);   
+
+  d3.select('.onhover')
+    .classed('onhover', false);  
 
     if( el ) lineEvent.traverse( el );
   },

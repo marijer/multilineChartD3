@@ -30,7 +30,7 @@ function parseData(fileName, fn){
           series['Account manager'] === 'Delete Accounts' ||
           series['Account manager'] === 'Abuse' ) return;
 
-            var numbers = _(range).map(function( month ) {
+          var numbers = _(range).map(function( month ) {
              totalCount += parseFloat(series[format(month)]);
              return parseFloat(series[format(month)]) || 0;
           });

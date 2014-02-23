@@ -11,7 +11,7 @@ h1, h2, h3 {
 h1 {
    font-family: 'Helvetica Neue', Helvetica, sans-serif;
    font-weight: 200;
-   margin-bottom: 5§px;
+   margin-bottom: 5px;
 }
 
 .body-container {
@@ -21,6 +21,12 @@ h1 {
 
 .aside {
   float:left;
+}
+
+header {
+  margin-top: 20px;
+  font-size: 12px;
+  line-height: 1.4em;
 }
 
 .info {

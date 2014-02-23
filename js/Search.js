@@ -52,7 +52,7 @@ var search = {
 
 		if (totalResults > 0){
 			var obj = combinedAccounts.getObject();
-			obj.name = 'Total ' + name;
+			obj.name = "Total '" + name + "'";
 
 			mainBarChart.update( obj );
 			mainBarChart.setMainTitle( obj );
