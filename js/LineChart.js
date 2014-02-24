@@ -197,8 +197,8 @@ var lineEvent = {
 
       var position = Number(el.getAttribute('data-position')) + 1;
 
-    mainBarChart.update( d );
-    mainBarChart.setMainTitle( d, position )
+    mainBarChart.setMainTitle( d, position );
+    mainBarChart.update( d ); 
   },
 
   onMouseOver: function( d ){
@@ -249,7 +249,7 @@ var lineEvent = {
   d3.select('#line-tooltip')
     .classed('hidden', true);   
 
-  d3.select('.onhover')
+ d3.select('.onhover')
     .classed('onhover', false);  
 
     if( el ) lineEvent.traverse( el );

@@ -1,6 +1,6 @@
 var mainSettings = {
 	maxValue: 0,
-	minimumAmountBookings: 50,
+	minimumAmountBookings: 20,
 	file:'summary_months_partnersperchannel_booked_bookings_plain_2.csv',
 
 	start: function(){
@@ -21,7 +21,11 @@ $(function(){
 		LineChart(data, range);
 	});
 
-	mainBarChart = new BarChart('.chart');
+	mainBarChart = new BarChart({ width: 260, 
+								  height: 195,
+								  mainContainer: '.chart',
+								  tooltipContainer: '#chart-tooltip', 
+								});
 
 	document.addEventListener('keydown', lineEvent.onKeyDown, false);
 

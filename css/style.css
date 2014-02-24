@@ -29,6 +29,10 @@ header {
   line-height: 1.4em;
 }
 
+header p {
+  max-width: 700px;
+}
+
 .info {
   margin-top:5px;
   font-style:italic;
@@ -42,7 +46,7 @@ header {
 
 .chart {
   font-size: 10px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .chart rect {
@@ -60,7 +64,6 @@ header {
 .chart-result {
   float:left;
   height: 250px;
-  width: 250px;
   margin-right: 20px;
 }
 

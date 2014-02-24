@@ -7,6 +7,7 @@ function parseData(fileName, fn){
       var amArr = [];
       var totalPid = 0;
       var totalSmallAccounts = 0;
+      var totalLargeAccounts = 0;
       var minimumAmountBookings = mainSettings.minimumAmountBookings;
 
       var blueTeam = new CombinePartners(),
@@ -24,24 +25,18 @@ function parseData(fileName, fn){
          var value = {},
          totalCount = 0;
 
-         // if table total, or certain partners > remove them
-         if (series['Partner ID'] === 'table total' || 
+      // if table total, or certain partners > remove them
+      if (series['Partner ID'] === 'table total' || 
           series['Account manager'] === 'Search Team' || 
           series['Account manager'] === 'Delete Accounts' ||
           series['Account manager'] === 'Abuse' ) return;
 
-          var numbers = _(range).map(function( month ) {
+         var numbers = _(range).map(function( month ) {
              totalCount += parseFloat(series[format(month)]);
              return parseFloat(series[format(month)]) || 0;
           });
 
-         totalPid += 1;
-
-         // if less then x bookings, do not add
-         if ( totalCount < minimumAmountBookings ) {
-            totalSmallAccounts += 1;
-            return;
-         } 
+        totalPid += 1;
 
          // do some longtail things - these accounts are added together
          if (series['Account manager'] === 'LT Team AMS Blue '){
@@ -54,7 +49,14 @@ function parseData(fileName, fn){
             redTeam.update(series, numbers);
             return;
          }
+     
+              // if less then x bookings, do not add
+         if ( totalCount < minimumAmountBookings ) {
+            totalSmallAccounts += 1;
+            return;
+         }
 
+         totalLargeAccounts += 1;
 
          var hasAm = _.find(amArr, function( obj ) { return obj.manager == series['Account manager']; });
 
@@ -80,8 +82,11 @@ function parseData(fileName, fn){
    data.push(blueTeam.getObject());
    data.push(redTeam.getObject());
    data.push(greenTeam.getObject());
+   totalLargeAccounts += 3;
 
-   processed( totalPid, totalSmallAccounts);
+   console.log(totalSmallAccounts)
+
+   processed(totalPid, totalLargeAccounts);
 
    var values = _(data).chain().pluck('values').flatten().value();
    mainSettings.maxValue = d3.max(values);
@@ -136,10 +141,12 @@ function CombinePartners( team ){
    }
 }
 
-function processed( total, minimum ){
+function processed( total, largeAccounts ){
    var el = document.getElementById('data-stats');
-   var numberFormat = d3.format(',.0d');
-   var showingNumber = total - minimum;
+       numberFormat = d3.format(',.0d'),
+       minimum = total - largeAccounts;
 
-   el.innerHTML = "Showing <span>" + numberFormat(Number(showingNumber)) + "</span> of in total <span>" + numberFormat(Number(total)) +"</span> PIDs, <span>" + numberFormat(Number(minimum)) + "</span> were below " + mainSettings.minimumAmountBookings  + " bookings and are excluded from the graphs." ;
+   var s = "<p>Showing <span>" + numberFormat(Number(largeAccounts)) + "</span> of in total <span>" + numberFormat(Number(total)) +"</span> PIDs,";
+   s += " <span>" + numberFormat(Number(minimum)) + "</span> were below " + mainSettings.minimumAmountBookings  + " bookings or belonged to long tail and are excluded from the graphs.*";
+   el.innerHTML = s;
 }

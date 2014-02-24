@@ -60,7 +60,12 @@ var search = {
    	 allArr.sort(compare);
 
    	 for (var i = 0; i < allArr.length; i++){
-   	 		var bar1 = new BarChart();
+   	 		var bar1 = new BarChart({
+   	 						  width: 230, 
+								  height: 175,
+								  mainContainer: '#results-container',
+								  tooltipContainer: '#chart-tooltip', });
+
 	      	bar1.setTitle(allArr[i]);
 	      	bar1.update(allArr[i]);
 	      	combinedAccounts.update(allArr[i], allArr[i].values);
@@ -70,8 +75,8 @@ var search = {
 			var obj = combinedAccounts.getObject();
 			obj.name = "Total '" + name + "'";
 
-			mainBarChart.update( obj );
 			mainBarChart.setMainTitle( obj );
+			mainBarChart.update( obj );
 
 			lineEvent.restrictSelection( lineEventArr );
 		}

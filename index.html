@@ -10,31 +10,33 @@
    <div class='body-container'> 
       <header>
         <h1>Strategic Partnerships + Shop PPC</h1>
-        <p class='remark'>Test with static data which shows the Booked Bookings per Partner ID(PID) of Strategic Partnerships and Shop PPC. Longtail accounts have been combined( this regards 'LT Team BCN Green ', 'LT Team APAC Red', 'LT Team AMS Blue ').</p>
-
-        <div id='data-stats'></div>
+        <p class='remark'>Test with static data which shows the Booked Bookings per Partner ID (PID) per month of Strategic Partnerships and Shop PPC.</p>
       </header>
 
       <div class='main-container'>
         <div class='search-container'>
-              <select id='search-select'>
-                <option value="name">partner name</option>
-                <option value="manager">account manager</option>
-                <option value="id">partner ID</option>
-              </select>
-
-              <input type='search' id='search' placeholder='Search Partnername'>
-              <div id='search-stats'></div>
+          <select id='search-select'>
+            <option value="name">partner name</option>
+            <option value="manager">account manager</option>
+            <option value="id">partner ID</option>
+          </select>
+          <input type='search' id='search' placeholder='Search Partnername'>
+          <div id='search-stats'></div>
         </div>
 
         <div id='main-linechart' class='multiline-container aside' style="min-height: 425px"></div> 
+        <div id='data-stats'></div>
            <div class='detail-container aside'>
-              <div class='title-container'></div>
               <div class="chart"></div>
            </div>
         </div>
        <div id='results-container'></div>
+
+      <footer>
+        <div class='remark'> * Longtail accounts have been combined, this regards 'LT Team BCN Green ', 'LT Team APAC Red', 'LT Team AMS Blue '</div>
+      </footer>
    </div>
+
 
     <!-- external libraries -->
     <script src="js/lib/d3.v3.min.js"></script>
@@ -48,6 +50,7 @@
     <script src="js/search.js"></script> 
     <script src="js/main.js"></script>
 
+  <!-- tooltips -->
    <div id="line-tooltip" class="tooltip hidden">
       <div class="title"></div>
       <div class="pid"></div>

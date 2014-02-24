@@ -1,15 +1,31 @@
-function BarChart( container ){
+function BarChart( obj ){
 	var margin = {top: 20, right: 30, bottom: 50, left: 50},
 		 width = 250 - margin.left - margin.right,
 		 height = 180 - margin.top - margin.bottom,
-		 initBool = false,
+		 mainContainer = 'body',
+		 tooltipContainer = '.tooltip',
+		 tweenDuration = 1000,
 		 numberFormat = d3.format(',.0d'),
-		 tweenDuration= 1000,
+
+		 initBool = false,
 		 headerInfo = '';
 
-	var chart, gy, initBool, zoom;
+	var chart, chartContainer, gy, initBool, zoom;
 
-	var getYAxis = function ( y ) {
+	// function is called down below - this could be a clean way to do this?
+	var setConfig = function(){
+		if (obj){
+			margin = obj !== undefined && obj.margin !== undefined ? obj.margin : margin;
+			width = obj.width - margin.left - margin.right || width;
+			height = obj.height - margin.top - margin.bottom || height;
+			mainContainer = obj.mainContainer || mainContainer;
+			tooltipContainer = obj.tooltipContainer || tooltipContainer;
+
+			tweenDuration = obj.tweenDuration || tweenDuration;
+		}
+	},
+
+	getYAxis = function ( y ) {
 		var yAxis = d3.svg.axis()
 		    .scale(y)
 			 .tickPadding(10)
@@ -35,16 +51,14 @@ function BarChart( container ){
 	},
 
 	setMainTitle = function( d, position ){
-		var infobox = d3.select('.title-container')
-			.html( function ( ){
-				var str = '<h1>'+ d.name +'</h1>';
-				str += '<h2>' + d.manager + '</h2>';
-				str += '<h3> PID: ' + d.id + '</h3>';
+		var str = '<h1>'+ d.name +'</h1>';
+		str += '<h2>' + d.manager + '</h2>';
+		str += '<h3> PID: ' + d.id + '</h3>';
 
-				str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
-				str += '<div> Partner Position: ' + position + '</div>';
-				return str;
-		});
+		str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
+		str += '<div> Partner Position: ' + position + '</div>';
+		headerInfo = str;
+		return headerInfo;
 	},
 
 	setTitle = function( d ){
@@ -58,7 +72,6 @@ function BarChart( container ){
 	update = function( d ){
 		var data = d.values;
 		var barWidth = width / data.length;
-		var elContainer = container || '#results-container';
 		
 		if ( initBool ) {
 			this.updateGraph(data)
@@ -79,13 +92,18 @@ function BarChart( container ){
 			    .scale( x )
 				 .tickFormat(d3.time.format('%b'))
 			    .orient( 'bottom' );	
-
-			var header = d3.select( elContainer )
+			
+			chartContainer = d3.select( mainContainer )
 							.append('div')
 							.attr('class', 'chart-result')
+
+			var header = chartContainer
+							.append('div')
+							.attr('class', 'chart-title')
 							.html( headerInfo );
 
-			chart = header.append('svg')
+			chart = chartContainer
+					.append('svg')
 			      .attr('width', width + margin.left + margin.right)
 			      .attr('height', height + margin.top + margin.bottom)
 			      .append('g')
@@ -125,7 +143,7 @@ function BarChart( container ){
 
 			chart.selectAll('.bar')
 				.on('mouseover', function( d, i ) {
-				 	var selectTooltip = d3.select('#chart-tooltip');
+				 	var selectTooltip = d3.select(tooltipContainer);
 
 				    selectTooltip
 				      .style('left', (d3.event.pageX + 10) + 'px')
@@ -137,7 +155,7 @@ function BarChart( container ){
 
 			   })
 			   .on('mouseout', function( d, i ) {
-					d3.select('#chart-tooltip')
+					d3.select( tooltipContainer )
     				  .classed('hidden', true);
 			   });
 
@@ -163,6 +181,9 @@ function BarChart( container ){
 		      .attr('y', function( d ) { return y( d ) + 3; })
 		      .text(function( d ) { return d; });
 
+		chartContainer.selectAll('.chart-title')
+			.html( headerInfo );
+
 		gy.transition()
 		   .duration( tweenDuration )
 		   .call(yAxis)
@@ -173,10 +194,14 @@ function BarChart( container ){
 		gy.call( customAxis );
 	}
 
+	setConfig();
+
 	return {
 		setMainTitle: setMainTitle,
 		setTitle: setTitle,
 		update: update,
 		updateGraph: updateGraph
-	}
+	}	
 }
+
+// a try at at revealing module pattern
