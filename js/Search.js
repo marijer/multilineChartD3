@@ -20,6 +20,7 @@ var search = {
 	update: function( name ) {
 		var dimension = this.selectedDimension || 'name';
 		var arr = [];
+		var allArr = [];
 		var totalResults = 0;
 		var lineEventArr = [];
 		var combinedAccounts = new CombinePartners();
@@ -33,7 +34,7 @@ var search = {
 		.style('display', 'inline')
 		.each(function( d, i ) {
 
-	      	// check if the aid is not already
+	      	// check if the aid is not already in the array
 	      	if (arr.indexOf(d.id) !== -1) return;
 
 	      	d3.select(this.parentNode)
@@ -43,12 +44,27 @@ var search = {
 	      	totalResults += 1;
 
 	      	lineEventArr.push(this.parentNode);
-
-	      	var bar1 = new BarChart();
-	      	bar1.setTitle(d);
-	      	bar1.update(d);
-	      	combinedAccounts.update(d, d.values);
+	      	allArr.push(d);
 	      })
+
+	   function compare( a, b ) {
+         if (a.values === undefined && b.values === undefined ) return;
+
+         if (a.totalCount < b.totalCount )
+            return 1;
+         if (a.totalCount > b.totalCount )
+            return -1;
+      	   return 0;
+   	 }
+
+   	 allArr.sort(compare);
+
+   	 for (var i = 0; i < allArr.length; i++){
+   	 		var bar1 = new BarChart();
+	      	bar1.setTitle(allArr[i]);
+	      	bar1.update(allArr[i]);
+	      	combinedAccounts.update(allArr[i], allArr[i].values);
+   	 }
 
 		if (totalResults > 0){
 			var obj = combinedAccounts.getObject();

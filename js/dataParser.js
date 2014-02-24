@@ -94,7 +94,7 @@ function parseData(fileName, fn){
             return 1;
          if (a.values[b.values.length -1 ] > b.values[b.values.length -1 ])
           return -1;
-       return 0;
+      return 0;
     }
 
    data.sort( compare );

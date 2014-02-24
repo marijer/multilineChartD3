@@ -4,6 +4,7 @@ function BarChart( container ){
 		 height = 180 - margin.top - margin.bottom,
 		 initBool = false,
 		 numberFormat = d3.format(',.0d'),
+		 tweenDuration= 1000,
 		 headerInfo = '';
 
 	var chart, gy, initBool, zoom;
@@ -154,7 +155,7 @@ function BarChart( container ){
 		var bar = chart.selectAll('rect')
 			.data(data)
 			.transition()
-			.duration(1000)
+			.duration( tweenDuration )
 			.attr('y', function( d ){ return y( d ); })
 			.attr('height', function( d ){ return height - y( d ); })
 
@@ -163,7 +164,7 @@ function BarChart( container ){
 		      .text(function( d ) { return d; });
 
 		gy.transition()
-		   .duration(1000)
+		   .duration( tweenDuration )
 		   .call(yAxis)
 		   .selectAll('text') // cancel transition on customized attributes
 		   .tween('attr.x', null)

@@ -1,6 +1,6 @@
 var mainSettings = {
 	maxValue: 0,
-	minimumAmountBookings: 10,
+	minimumAmountBookings: 50,
 	file:'summary_months_partnersperchannel_booked_bookings_plain_2.csv',
 
 	start: function(){
