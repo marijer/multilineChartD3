@@ -5,7 +5,7 @@ function LineChart(data, range) {
 //************************************************************
 // Create Margins and Axis and hook our zoom function
 //************************************************************
-  var margin = {top: 10, right: 30, bottom: 30, left: 70},
+  var margin = {top: 10, right: 30, bottom: 30, left: 60},
       width = 760 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
   	
@@ -32,7 +32,7 @@ function LineChart(data, range) {
       .orient('left');
   	
   zoom = d3.behavior.zoom()
-      .x(x)
+     // .x(x)
       .y(y)
       .scaleExtent([1, 30])
       .on('zoom', zoomed);	
@@ -41,7 +41,7 @@ function LineChart(data, range) {
 // Generate our SVG object
 //************************************************************	
   svg = d3.select('.multiline-container').append('svg')
-  	//.call(zoom)
+  	  .call(zoom)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
   	 .append('g')
@@ -69,7 +69,7 @@ function LineChart(data, range) {
   	.attr('id', 'clip')
   	.append('rect')
   	.attr('width', width)
-	.attr('height', height);
+	  .attr('height', height);
 	
 
 //************************************************************
@@ -170,6 +170,8 @@ function zoomed() {
 
 	tx = Math.min(0, Math.max(width * (1 - s), t[0]));
 	ty = Math.min(0, Math.max(height * (1 - s), t[1]));
+
+  console.log(ty);
 
 	zoom.translate([tx, ty]);
 

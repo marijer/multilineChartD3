@@ -21,13 +21,19 @@ $(function(){
 		LineChart(data, range);
 	});
 
-	mainBarChart = new BarChart({ width: 260, 
-								  height: 195,
-								  mainContainer: '.chart',
-								  tooltipContainer: '#chart-tooltip', 
+	mainBarChart = new BarChart({ 
+								  width: 				280, 
+								  height: 				170,
+								  margin: 				{top: 5, right: 30, bottom: 30, left: 45},
+								  mainContainer: 		'.chart',
+								  tooltipContainer: 	'#chart-tooltip'
 								});
 
-	document.addEventListener('keydown', lineEvent.onKeyDown, false);
+	document.addEventListener('keydown', function( e ) {
+		lineEvent.onKeyDown( e );
+		//e.preventDefault();
+	}
+	, false);
 
 	// search events
 	$( 'select#search-select' ).change(function() {

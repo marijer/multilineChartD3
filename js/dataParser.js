@@ -84,8 +84,6 @@ function parseData(fileName, fn){
    data.push(greenTeam.getObject());
    totalLargeAccounts += 3;
 
-   console.log(totalSmallAccounts)
-
    processed(totalPid, totalLargeAccounts);
 
    var values = _(data).chain().pluck('values').flatten().value();
@@ -147,6 +145,6 @@ function processed( total, largeAccounts ){
        minimum = total - largeAccounts;
 
    var s = "<p>Showing <span>" + numberFormat(Number(largeAccounts)) + "</span> of in total <span>" + numberFormat(Number(total)) +"</span> PIDs,";
-   s += " <span>" + numberFormat(Number(minimum)) + "</span> were below " + mainSettings.minimumAmountBookings  + " bookings or belonged to long tail and are excluded from the graphs.*";
+   s += " <span>" + numberFormat(Number(minimum)) + "</span> were below " + mainSettings.minimumAmountBookings  + " bookings or belonged to long tail and were excluded from the graphs.*";
    el.innerHTML = s;
 }

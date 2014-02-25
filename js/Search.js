@@ -61,10 +61,12 @@ var search = {
 
    	 for (var i = 0; i < allArr.length; i++){
    	 		var bar1 = new BarChart({
-   	 						  width: 230, 
-								  height: 175,
-								  mainContainer: '#results-container',
-								  tooltipContainer: '#chart-tooltip', });
+   	 						  width: 				240, 
+								  height: 				160,
+								  margin: 				{top: 10, right: 10, bottom: 30, left: 50},
+								  mainContainer: 		'#results-container',
+								  tooltipContainer:  '#chart-tooltip' 
+					});
 
 	      	bar1.setTitle(allArr[i]);
 	      	bar1.update(allArr[i]);
@@ -73,7 +75,7 @@ var search = {
 
 		if (totalResults > 0){
 			var obj = combinedAccounts.getObject();
-			obj.name = "Total '" + name + "'";
+			obj.name = "Total BB's '" + name + "'";
 
 			mainBarChart.setMainTitle( obj );
 			mainBarChart.update( obj );

@@ -12,7 +12,7 @@ function BarChart( obj ){
 
 	var chart, chartContainer, gy, initBool, zoom;
 
-	// function is called down below - this could be a clean way to do this?
+	// function is called down below - could be a clean way to do this?
 	var setConfig = function(){
 		if (obj){
 			margin = obj !== undefined && obj.margin !== undefined ? obj.margin : margin;
@@ -52,11 +52,11 @@ function BarChart( obj ){
 
 	setMainTitle = function( d, position ){
 		var str = '<h1>'+ d.name +'</h1>';
-		str += '<h2>' + d.manager + '</h2>';
-		str += '<h3> PID: ' + d.id + '</h3>';
+		str += '<div class="manager">' + d.manager + '</div>';
+		str += '<div class="pid"> PID: ' + d.id + '</div>';
 
 		str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
-		str += '<div> Partner Position: ' + position + '</div>';
+		str += '<div> Last month Position: ' + position + '</div>';
 		headerInfo = str;
 		return headerInfo;
 	},
@@ -80,7 +80,6 @@ function BarChart( obj ){
 			var x = d3.time.scale()
 			    .domain([new Date(2012, 10, 1), new Date(2013, 12, 1)])
 			    .range([0, width]);
-
 
 			var y = d3.scale.linear()
 			      .range([height, 0])

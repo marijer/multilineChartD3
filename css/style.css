@@ -14,6 +14,12 @@ h1 {
    margin-bottom: 5px;
 }
 
+h3 {
+  font-weight: bold;
+  font-size: 1.15em;
+  margin-bottom: .2em;
+}
+
 .body-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -45,8 +51,36 @@ header p {
 }
 
 .chart {
-  font-size: 10px;
   margin-top: 10px;
+}
+
+.chart .chart-result svg {
+  margin-top: 20px;
+}
+
+.tick text {
+  fill: rgb(128, 128, 128);
+  font-size: 10px;
+}
+
+.chart-title {
+  margin-bottom: 5px;
+}
+
+.chart-title h1 {
+  font-size: 1.7em;
+  line-height: 1.2em;
+}
+
+.chart-title {
+  line-height: 1.3em;
+  font-size: 1.1em;
+}
+
+.pid {
+  margin-bottom: .4em;
+  color: #424242;
+  font-size: .95em;
 }
 
 .chart rect {
@@ -160,6 +194,12 @@ text.label {
 #results-container{
   clear: both;
   display: block;
+  overflow: hidden;
+}
+
+#results-container .chart-result {
+  width: 250px;
+  margin-bottom: 15px;
 }
 
 #search-stats{
@@ -196,4 +236,8 @@ text.label {
   margin: 0;
   font-size: 12px;
   font-weight: bold;
+}
+
+footer {
+  clear:both;
 }
