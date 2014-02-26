@@ -51,22 +51,29 @@ function BarChart( obj ){
 	},
 
 	setMainTitle = function( d, position ){
-		var str = '<h1>'+ d.name +'</h1>';
-		str += '<div class="manager">' + d.manager + '</div>';
-		str += '<div class="pid"> PID: ' + d.id + '</div>';
-
-		str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
-		str += '<div> Last month Position: ' + position + '</div>';
+		var str = '<div class="detail-info-title">'
+			str += '<h1>'+ d.name +'</h1>';
+		str += '</div>'
+		
+		str += '<div class="detail-info-stats">';
+			str += '<div>' + d.manager + '<span>' + d.id + '</span></div>';
+			//str += '<div> PID: <span>' + d.id + '</span></div>';
+			str += '<div class="number"> Total Bookings: <span>' + numberFormat(Number(d.totalCount)) + '</span></div>';
+			str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
+			str += '<div> Last month Rank: <span>' + position + '<span></div>';
+		str += '</div>'
 		headerInfo = str;
-		return headerInfo;
 	},
 
 	setTitle = function( d ){
 		headerInfo = '<h3>'+ d.name +'</h3>';
-		headerInfo += '<div class="manager">'+ d.manager +'</div>';
-		headerInfo += '<div class="pid">PID: '+ d.id +'</div>'
-		
-		headerInfo += '<div class="total">Total Bookings: '+ numberFormat(Number( d.totalCount )) +'</div>'
+
+		headerInfo += '<div class="detail-info-stats">';
+			headerInfo += '<div>' + d.manager + '<span>'+ d.id +'</span></div>'
+			//headerInfo += '<div>PID: <span>'+ d.id +'</span></div>'
+			headerInfo += '<div class="total">Total Bookings: <span>'+ numberFormat(Number( d.totalCount )) +'</span></div>'
+			headerInfo += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
+		headerInfo += '</div>'
 	},
 
 	update = function( d ){

@@ -41,22 +41,30 @@ $(function(){
 
 		mainBarChart = new BarChart({ 
 			width: 280, 
-			height: 170,
-			margin: {top: 5, right: 30, bottom: 30, left: 45},
+			height: 175,
+			margin: {top: 5, right: 10, bottom: 30, left: 50},
 			mainContainer: '.chart',
 			tooltipContainer: '#chart-tooltip'
 		});
 	}
 
-	app.update = function(){
-
+	app.update = function( option ){
 		var myNode = document.querySelector('.multiline-container');
+		var d;
 
 		while (myNode.firstChild) {
 			myNode.removeChild(myNode.firstChild);
 		}
 
-		var d = parser.filter();
+		switch( option ){
+			case 'default':
+				d = parser.getDefaultData();
+				console.log('hi');
+				break;
+			default:
+				d = parser.filter();
+				break
+		}
 
 		var line = new LineChart(d, rangeMe);
 		line.init();

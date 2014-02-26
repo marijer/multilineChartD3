@@ -23,7 +23,7 @@ var search = {
 		var allArr = [];
 		var totalResults = 0;
 		var lineEventArr = [];
-		var combinedAccounts = new CombinePartners();
+		var combinedAccounts = new CombinePartners({name: name});
 
 		svg.selectAll('.line')
 		.filter(function( d ) { 
@@ -61,12 +61,12 @@ var search = {
 
    	 for (var i = 0; i < allArr.length; i++){
    	 		var bar1 = new BarChart({
-   	 						  width: 				240, 
-								  height: 				160,
-								  margin: 				{top: 10, right: 10, bottom: 30, left: 50},
-								  mainContainer: 		'#results-container',
-								  tooltipContainer:  '#chart-tooltip' 
-					});
+				width: 				240, 
+				height: 			160,
+				margin: 			{top: 10, right: 10, bottom: 30, left: 50},
+				mainContainer: 		'#results-container',
+				tooltipContainer:  '#chart-tooltip' 
+			});
 
 	      	bar1.setTitle(allArr[i]);
 	      	bar1.update(allArr[i]);
