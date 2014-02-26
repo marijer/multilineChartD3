@@ -125,12 +125,12 @@ function BarChart( obj ){
 			gy = chart.append('g')
 			    .attr('class', 'y axis')
 			    .call( yAxis )
-			    .call(customAxis);
+			    .call( customAxis );
 
 			var bar = chart.selectAll('.bar')
 			      .data(data)
-			    	.enter()
-			    	.append('rect')
+			      .enter()
+			      .append('rect')
 			      .attr('class', 'bar chart')
 			      .attr('opacity', function() {
 			      	return Math.random() *.2 + .7;

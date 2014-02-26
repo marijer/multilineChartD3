@@ -30,18 +30,27 @@ function LineChart(data, range) {
   	 .tickSize(-width)
   	 .tickSubdivide(true)	
       .orient('left');
-  	
-  zoom = d3.behavior.zoom()
+
+  var line = d3.svg.line()
+    .interpolate('linear')
+    .defined(function(d) { return d != null; }) 
+    .x(function(d,i) { return x(range[i]); })
+    .y(function(d) { return y( d ); });
+
+  var zoom = d3.behavior.zoom()
      // .x(x)
       .y(y)
       .scaleExtent([1, 30])
       .on('zoom', zoomed);	
 
+  var gy;
+
  //************************************************************
 // Generate our SVG object
 //************************************************************	
+  this.init = function() {
   svg = d3.select('.multiline-container').append('svg')
-  	  .call(zoom)
+  	  //.call(zoom)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
   	 .append('g')
@@ -52,18 +61,15 @@ function LineChart(data, range) {
       .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis);
    
-  svg.append('g')
+  gy = svg.append('g')
       .attr('class', 'y axis')
-      .call(yAxis);
-   
-  svg.append('g')
-  	.attr('class', 'y axis')
-  	.append('text')
-  	.attr('class', 'axis-label')
-  	.attr('transform', 'rotate(-90)')
-  	.attr('y', 12)
-  	.attr('x', -90)
-  	.text('Booked Bookings');	
+      .call(yAxis)
+     	.append('text')
+    	.attr('class', 'axis-label')
+    	.attr('transform', 'rotate(-90)')
+    	.attr('y', 12)
+    	.attr('x', -90)
+    	.text('Booked Bookings');	
    
   svg.append('clipPath')
   	.attr('id', 'clip')
@@ -75,11 +81,6 @@ function LineChart(data, range) {
 //************************************************************
 // Create D3 line object and draw data on our SVG object
 //************************************************************
-var line = d3.svg.line()
-    .interpolate('linear')
-    .defined(function(d) { return d != null; })	
-    .x(function(d,i) { return x(range[i]); })
-    .y(function(d) { return y( d ); });
 
 var series = svg.selectAll('.series')
       .data(data)
@@ -127,36 +128,40 @@ svg.selectAll('.hover')
       .on('click', function( d, i ) {
         lineEvent.selectLine( this.parentNode , d );
   })
-	
-	
-// ************************************************************
-// Draw points on SVG object based on the data given
-// ************************************************************
-// var points = svg.selectAll('.dots')
-// 	.data(data)
-// 	.enter()
-// 	.append('g')
-//     .attr('class', 'dots')
-// 	.attr('clip-path', 'url(#clip)');	
- 
-// points.selectAll('.dot')
-// 	.data(function(d, index){ 		
-// 		var a = [];
-// 		d.forEach(function(point,i){
-// 			a.push({'index': index, 'point': point});
-// 		});		
-// 		return a;
-// 	})
-// 	.enter()
-// 	.append('circle')
-// 	.attr('class','dot')
-// 	.attr('r', 2.5)
-// 	.attr('fill', function(d,i){ 	
-// 		return colors[d.index%colors.length];
-// 	})	
-// 	.attr('transform', function(d) { 
-// 		return 'translate(' + x(d.point.x) + ',' + y(d.point.y) + ')'; }
-// 	);
+}
+
+this.update = function( data ){
+  svg.selectAll("path").data([]).exit().remove()
+
+var series = svg.selectAll('.series')
+      .data(data)
+      .enter()
+      .append('g')
+      .attr('d', function(d) { return d })
+      .attr('class', 'series')
+      .attr('data-position', function(d, i){
+        return i;
+      })
+      .attr('clip-path', 'url(#clip)');
+
+
+  series.append('path')
+      .attr('class', 'line main')
+      .attr('d', function(d) { return line(d.values); })
+      
+
+  series.append('path')
+      .attr('class', 'invisible hover line')
+      .attr('d', function( d ) { return line(d.values); });
+
+
+  gy.transition()
+     .duration( 1000 )
+     .call(yAxis)
+     .selectAll('text') // cancel transition on customized attributes
+     .tween('attr.x', null)
+     .tween('attr.dy', null);
+}
 	
  
 //************************************************************

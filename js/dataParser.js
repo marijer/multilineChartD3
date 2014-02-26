@@ -1,136 +1,171 @@
 function parseData(fileName, fn){
 
-    var dsv = d3.dsv(';', 'text/plain');
-    dsv('data/' + fileName, function( raw ) {
+   var completeDataSet = [],
+       amArr = [],
+       totalPid = 0,
+       totalSmallAccounts = 0,
+       totalLargeAccounts = 0,
+       minimumAmountBookings = mainSettings.minimumAmountBookings;
 
-      var data =  [];
-      var amArr = [];
-      var totalPid = 0;
-      var totalSmallAccounts = 0;
-      var totalLargeAccounts = 0;
-      var minimumAmountBookings = mainSettings.minimumAmountBookings;
+   var format = d3.time.format('%b %Y');
 
+   var start = mainSettings.start(),
+       end = mainSettings.end();
+
+   var range = d3.time.month.range(start, end, 1)
+
+   var dsv = d3.dsv(';', 'text/plain');
+
+   // sorting data object on last number in values array
+   var compare = function ( a, b ) {
+            if (a.values === undefined && b.values === undefined ) return;
+
+            if (a.values[b.values.length -1 ] < b.values[b.values.length -1 ])
+               return 1;
+            if (a.values[b.values.length -1 ] > b.values[b.values.length -1 ])
+             return -1;
+         return 0;
+   },
+
+   process = function( raw ){
+      var newDataSet = [];
+
+      _(raw).each(function( series ) {
+         if ( series['Partner ID'] === 'table total' ) return; 
+
+         var totalCount = 0;
+
+         var numbers = _(range).map(function( month ) {
+            totalCount += parseFloat(series[format(month)]);
+            return parseFloat(series[format(month)]) || 0;
+         });
+
+         var obj = {
+            manager: series['Account manager'],
+            id: series['Partner ID'],
+            name: series['Partner name'],
+            values: numbers,
+            totalCount: totalCount           
+         };
+
+         newDataSet.push (obj);
+   });
+
+      completeDataSet = newDataSet;
+      fn( newDataSet, range);
+   },
+
+   processDefault = function( raw ){
+      var myData = [];
+ 
       var blueTeam = new CombinePartners(),
           greenTeam = new CombinePartners(),
           redTeam = new CombinePartners();
 
-      var format = d3.time.format('%b %Y');
+      _( raw ).each(function( series ) {
 
-      var start = mainSettings.start(),
-          end = mainSettings.end();
-
-      var range = d3.time.month.range(start, end, 1)
-
-      _(raw).each(function( series ) {
-         var value = {},
-         totalCount = 0;
-
-      // if table total, or certain partners > remove them
-      if (series['Partner ID'] === 'table total' || 
-          series['Account manager'] === 'Search Team' || 
-          series['Account manager'] === 'Delete Accounts' ||
-          series['Account manager'] === 'Abuse' ) return;
-
-         var numbers = _(range).map(function( month ) {
-             totalCount += parseFloat(series[format(month)]);
-             return parseFloat(series[format(month)]) || 0;
-          });
+         // if table total, or certain partners > remove them
+         if ( series.manager === 'Search Team' || 
+              series.manager === 'Delete Accounts' ||
+              series.manager === 'Abuse' ) return;
 
         totalPid += 1;
 
          // do some longtail things - these accounts are added together
-         if (series['Account manager'] === 'LT Team AMS Blue '){
-             blueTeam.update(series, numbers);
+         if (series.manager === 'LT Team AMS Blue '){
+             blueTeam.update(series);
              return;
-          } else if(series['Account manager'] === 'LT Team BCN Green '){
-            greenTeam.update(series, numbers);
+          } else if(series.manager === 'LT Team BCN Green '){
+            greenTeam.update(series);
             return;
-         } else if(series['Account manager'] === 'LT Team APAC Red'){
-            redTeam.update(series, numbers);
+         } else if(series.manager === 'LT Team APAC Red'){
+            redTeam.update(series);
             return;
          }
      
-              // if less then x bookings, do not add
-         if ( totalCount < minimumAmountBookings ) {
+         // if less then x bookings, do not add
+         if ( series.totalCount < minimumAmountBookings ) {
             totalSmallAccounts += 1;
             return;
          }
 
          totalLargeAccounts += 1;
 
-         var hasAm = _.find(amArr, function( obj ) { return obj.manager == series['Account manager']; });
+         myData.push(series);
+      });
 
-           //  var color;
-           //  if( hasAm === undefined ){
-           //    var random = Math.ceil(Math.random() * 100); 
-           //    color = d3.hcl( 48 * random, 95, 45 ).toString();
-           //    amArr.push({ manager: series['Account manager'], color: color });
-           //  } else{
-           //    color = hasAm.color;
-           // }
+      myData.push(blueTeam.getObject());
+      myData.push(redTeam.getObject());
+      myData.push(greenTeam.getObject());
+      totalLargeAccounts += 3;
 
-           data.push({
-             manager: series['Account manager'],
-             id: series['Partner ID'],
-             name: series['Partner name'],
-             // color: color,
-             values: numbers,
-             totalCount: totalCount
-          });
-        });
+      processed( totalPid, totalLargeAccounts );
 
-   data.push(blueTeam.getObject());
-   data.push(redTeam.getObject());
-   data.push(greenTeam.getObject());
-   totalLargeAccounts += 3;
+      var values = _(myData).chain().pluck('values').flatten().value();
+      mainSettings.maxValue = d3.max(values);
 
-   processed(totalPid, totalLargeAccounts);
+      myData.sort( compare );
 
-   var values = _(data).chain().pluck('values').flatten().value();
-   mainSettings.maxValue = d3.max(values);
+      // do callback which returns the data
+      return myData;
+   },
 
-       // sorting data object on last number in values array
-   function compare( a, b ) {
-         if (a.values === undefined && b.values === undefined ) return;
+   init = function( ){
+      dsv('data/' + fileName, function( data ) {
+         process( data );
+      });  
+   },
 
-         if (a.values[b.values.length -1 ] < b.values[b.values.length -1 ])
-            return 1;
-         if (a.values[b.values.length -1 ] > b.values[b.values.length -1 ])
-          return -1;
-      return 0;
-    }
+   filter = function( name ){
+      var data = [];
 
-   data.sort( compare );
+      _( completeDataSet ).each(function( series ) {
+         if (series.manager === 'LT Team APAC Red' && series.totalCount !== 0 ){
+           // console.log(series.name, series.values);
+           data.push(series);
+         }
+      });
 
-   // do callback which returns the data
-   fn( data, range);
+      var values = _(data).chain().pluck('values').flatten().value();
+      mainSettings.maxValue = d3.max(values);
 
-   });
+      return data;
+   };
+
+   return {
+      init: init,
+      filter: filter,
+      processDefault: processDefault
+   }
 }
 
-function CombinePartners( team ){
-   var first = true;
-   var obj = {};
-   var totalPids = 1; 
+function CombinePartners(){
+   var first = true,
+       obj = {},
+       totalPids = 1; 
 
    return { 
-      update: function( d, numbers ) {
+      update: function( d ) {
          if( first ){
-            obj.manager = d['Account manager'] || d.manager;
+            obj.name =  d.manager;
+            obj.manager = d.manager;
             obj.id = '';
-            obj.name = d['Account manager'] || d.manager;
-            obj.values = numbers;
+            obj.values = d.values;
 
             first = false;
          } else {
-            var total = 0;
-            for (var i = 0; i < obj.values.length; i++){
-               obj.values[i] += numbers[i];
+             var total = 0;
+             var arr = d.values;
+
+
+            for (var i = 0; i < arr.length; i++){
+               obj.values[i] += arr[i];
                total += obj.values[i];
             }
+
             totalPids+= 1;
             obj.id = totalPids +'s PIDs processed';
-            obj.totalCount= total;
+            obj.totalCount = total;
          }
       },
       getObject: function(){
@@ -138,6 +173,7 @@ function CombinePartners( team ){
       }
    }
 }
+
 
 function processed( total, largeAccounts ){
    var el = document.getElementById('data-stats');
