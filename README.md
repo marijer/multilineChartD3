@@ -13,8 +13,8 @@ Multiline barchart
 - dashboard
 
 Done
--- set linechart zoom on y-axis only
--- remove onhover when doing keydown event
--- fix up and down, scrollbar with arrows
--- fix move up & down > constraints
--- fix bug, through data parsing in clone object 
+- set linechart zoom on y-axis only
+- remove onhover when doing keydown event
+- fix up and down, scrollbar with arrows
+- fix move up & down > constraints
+- fix bug, through data parsing in clone object 

@@ -61,7 +61,7 @@ var search = {
 
    	 for (var i = 0; i < allArr.length; i++){
    	 		var bar1 = new BarChart({
-				width: 				240, 
+				width: 				230, 
 				height: 			160,
 				margin: 			{top: 10, right: 10, bottom: 30, left: 50},
 				mainContainer: 		'#results-container',

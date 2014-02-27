@@ -59,11 +59,11 @@ header p {
 
 .chart-title {
   margin-bottom: 5px;
-  font-size: 1.1em;
+  font-size: 1.15em;
 }
 
 .detail-info-title {
-  height: 45px;
+  min-height: 45px;
 }
 
 .chart-title h1 {
@@ -104,6 +104,10 @@ header p {
   float:left;
 }
 
+.chart-title h3 {
+  min-height: 25px;
+}
+
 .chart .chart-result, .chart {
   float:none;
   display: inline-block;
@@ -116,6 +120,7 @@ header p {
 
 #results-container .chart-title{
   margin-bottom: 10px;
+  height: 80px;
 }
 
 /* line chart */
@@ -123,7 +128,7 @@ header p {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #8B8B8B;
+  stroke: #E0E0E0;
   shape-rendering: crispEdges;
 }
 
@@ -199,12 +204,8 @@ text.label {
   clear: both;
 }
 
-.chart-title h3 {
-  margin-bottom: 10px;
-}
-
 .detail-container{
-  width: 300px;
+  width: 280px;
 }
 
 #results-container{
@@ -215,6 +216,7 @@ text.label {
 
 #results-container .chart-result {
  width: 240px;
+ height: 260px;
  margin: 0 15px 20px;
 }
 

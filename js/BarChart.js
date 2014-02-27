@@ -51,6 +51,7 @@ function BarChart( obj ){
 	},
 
 	setMainTitle = function( d, position ){
+		var pos = position || '-';
 		var str = '<div class="detail-info-title">'
 			str += '<h1>'+ d.name +'</h1>';
 		str += '</div>'
@@ -60,7 +61,7 @@ function BarChart( obj ){
 			//str += '<div> PID: <span>' + d.id + '</span></div>';
 			str += '<div class="number"> Total Bookings: <span>' + numberFormat(Number(d.totalCount)) + '</span></div>';
 			str += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
-			str += '<div> Last month Rank: <span>' + position + '<span></div>';
+			str += '<div> Last month Rank: <span>' + pos + '<span></div>';
 		str += '</div>'
 		headerInfo = str;
 	},
@@ -71,7 +72,7 @@ function BarChart( obj ){
 		headerInfo += '<div class="detail-info-stats">';
 			headerInfo += '<div>' + d.manager + '<span>'+ d.id +'</span></div>'
 			//headerInfo += '<div>PID: <span>'+ d.id +'</span></div>'
-			headerInfo += '<div class="total">Total Bookings: <span>'+ numberFormat(Number( d.totalCount )) +'</span></div>'
+		//	headerInfo += '<div class="total">Total Bookings: <span>'+ numberFormat(Number( d.totalCount )) +'</span></div>'
 			headerInfo += '<div class="number"> Last month Bookings: <span>' + numberFormat(Number(d.values[d.values.length -1 ])) + '</span></div>';
 		headerInfo += '</div>'
 	},
