@@ -1,11 +1,10 @@
 Multiline barchart 
 
-
-
 /* Roadmap */
 - mousehover barchart which gives number + month
 - load icon
 - use messaging to inform user of using the linechart with arrows
+- zoom in on chart when searching
 
 - interface update
 - styling
